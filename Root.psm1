@@ -11,7 +11,7 @@ foreach ($file in $FunctionFiles) {
 }
 
 # Set aliases
-New-Alias -Name "pssession" -Value "New-QPSSession"
+New-Alias -Name "newpssession" -Value "New-QPSSession"
 New-Alias -Name "enter" -Value "Enter-QPSSession"
 New-Alias -Name "enterpc" -Value "Enter-QPSSessionPC"
 New-Alias -Name "import" -Value "Import-QPSSession"
