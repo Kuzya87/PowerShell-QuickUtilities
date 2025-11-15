@@ -12,7 +12,7 @@
     RootModule        = '.\Root.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.1'
+    ModuleVersion     = '0.0.2'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -33,7 +33,7 @@
     # Description = ''
 
     # Minimum version of the PowerShell engine required by this module
-    PowerShellVersion = '7.2'
+    PowerShellVersion = '7.4'
 
     # Name of the PowerShell host required by this module
     # PowerShellHostName = ''
@@ -69,10 +69,10 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @('Copy-QWithRobocopy', 'Enter-QPSSession', 'Enter-QPSSessionPC', 
-    'Get-QDirectorySize', 'Get-QDirectoryStat', 'Import-QPSSession', 
-    'New-QPSSession', 'Restart-QComputer', 'Invoke-QRepeatCommand', 'Invoke-QMassActions',
-    'Watch-QDNSName')
+    FunctionsToExport = @('Copy-QWithRobocopy', 'Enter-QPSSession', 
+        'Get-QDirectorySize', 'Get-QDirectoryStat', 'Import-QPSSession', 
+        'New-QPSSession', 'Restart-QComputer', 'Invoke-QRepeatCommand', 'Invoke-QMassActions',
+        'Watch-QDNSName')
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     # CmdletsToExport = @()
@@ -81,7 +81,7 @@
     # VariablesToExport = @()
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport   = @("cpr", "enter", "enterpc", "import", "newpssession", "reboot")
+    AliasesToExport   = @("cpr", "enter", "import", "newpssession", "reboot")
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()

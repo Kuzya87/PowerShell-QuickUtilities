@@ -4,12 +4,14 @@ function Import-QPSSession {
         [Parameter(Mandatory = $true, Position = 0)]
         [string]$ComputerName,
         [Parameter(Mandatory = $false, Position = 1)]
-        [pscredential]$Credential = $admaccount,
+        [ValidateSet("WindowsPowerShell", "PowerShell7")]
+        [string]$PowerShellVersion = $QPSSession_PowerShell_Version,
+        [Parameter(Mandatory = $false, Position = 2)]
+        [pscredential]$Credential,
         [Parameter(Mandatory = $true, ParameterSetName = "byCommand")]
         [string[]]$Cmdlets,
         [Parameter(Mandatory = $true, ParameterSetName = "byModule")]
-        [string[]]$Modules,
-        [switch]$UseWindowsPowerShell
+        [string[]]$Modules
     )
 
     begin {
@@ -17,20 +19,21 @@ function Import-QPSSession {
     }
 
     process {
-        if ($UseWindowsPowerShell -eq $false) {
-            $PSSession = New-QPSSession -ComputerName $ComputerName -Credential $Credential -CredSSP
+        $Params = @{
+            ComputerName      = $ComputerName
+            PowerShellVersion = $PowerShellVersion
         }
-        else {
-            $PSSession = New-QPSSession -ComputerName $ComputerName -Credential $Credential -CredSSP -UseWindowsPowerShell
+        if ($Credential) {
+            $Params.Add("Credential", $Credential)
         }
+        $QPSSession = New-QPSSession @Params
 
         if ($Cmdlets) {
-            $ImportedModules = Import-PSSession -Session $PSSession -CommandName $Cmdlets
+            $QPSSession.ImportCmdlets($Cmdlets)
         }
         if ($Modules) {
-            $ImportedModules = Import-PSSession -Session $PSSession -Module $Modules
+            $QPSSession.ImportModules($Modules)
         }
-        $ImportedModules | Import-Module -Global
     }
 
     end {}

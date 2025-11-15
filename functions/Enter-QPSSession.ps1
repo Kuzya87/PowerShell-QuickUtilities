@@ -4,8 +4,10 @@ function Enter-QPSSession {
         [Parameter(Mandatory = $true, Position = 0)]
         [string]$ComputerName,
         [Parameter(Mandatory = $false, Position = 1)]
-        [pscredential]$Credential = $admaccount,
-        [switch]$UseWindowsPowerShell
+        [ValidateSet("WindowsPowerShell", "PowerShell7")]
+        [string]$PowerShellVersion = $QPSSession_PowerShell_Version,
+        [Parameter(Mandatory = $false, Position = 2)]
+        [pscredential]$Credential
     )
 
     begin {
@@ -13,12 +15,16 @@ function Enter-QPSSession {
     }
 
     process {
-        if ($UseWindowsPowerShell -eq $false) {
-            Enter-PSSession -Session (New-QPSSession -ComputerName $ComputerName -Credential $Credential)
+        $Params = @{
+            ComputerName      = $ComputerName
+            PowerShellVersion = $PowerShellVersion
         }
-        else {
-            Enter-PSSession -Session (New-QPSSession -ComputerName $ComputerName -Credential $Credential -UseWindowsPowerShell)
+        if ($Credential) {
+            $Params.Add("Credential", $Credential)
         }
+        $QPSSession = New-QPSSession @Params
+        
+        $QPSSession.Enter()
     }
 
     end {}
