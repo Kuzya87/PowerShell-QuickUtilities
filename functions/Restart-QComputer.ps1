@@ -4,7 +4,7 @@ function Restart-QComputer {
         [Parameter(Mandatory = $true, Position = 0)]
         [string[]]$ComputerName,
         [Parameter(Mandatory = $false, Position = 1)]
-        [pscredential]$Credential = $admaccount,
+        [pscredential]$Credential,
         [Parameter(Mandatory = $false)]
         [switch]$AsJob
     )
@@ -14,6 +14,15 @@ function Restart-QComputer {
     }
 
     process {
+        if (-not($Credential)) {
+            if (($computer.StartsWith("kz")) -or ($computer.EndsWith(".kz"))) {
+                $Credential = $admaccountkz
+            }
+            else {
+                $Credential = $admaccountac
+            }
+        }
+
         $Command = { Restart-Computer -ComputerName $ComputerName -WsmanAuthentication "Kerberos" -Credential $Credential -Wait -For "WinRM" -Force }
         try {
             if ($AsJob) {
