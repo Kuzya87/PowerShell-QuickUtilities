@@ -95,4 +95,9 @@ class QPSSession {
         Remove-PSSession -Session $this.PSSessionObject
         $this.State = $this.PSSessionObject.State
     }
+
+    # Method for update PSSession state
+    [void] UpdateState() {
+        $this.State = $this.PSSessionObject.State
+    }
 }
